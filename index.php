@@ -1,7 +1,76 @@
-<?php include('includes/header.php')?>
+<?php
+require_once 'includes/config.php';
+
+// Get featured gadgets for homepage
+$featured_gadgets_query = "SELECT g.*, c.name as category_name
+                          FROM gadgets g
+                          JOIN categories c ON g.category_id = c.id
+                          WHERE g.status = 'available'
+                          ORDER BY g.created_at DESC LIMIT 6";
+$featured_gadgets = executeQuery($featured_gadgets_query);
+
+// Get success/error messages
+$success_message = getSuccessMessage();
+$error_message = getErrorMessage();
+
+include('includes/header.php');
+?>
+
+    <!-- Alert Messages -->
+    <?php if ($success_message): ?>
+        <div class="alert alert-success">
+            <?php echo htmlspecialchars($success_message); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($error_message): ?>
+        <div class="alert alert-error">
+            <?php echo htmlspecialchars($error_message); ?>
+        </div>
+    <?php endif; ?>
+
+    <style>
+        .alert {
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .gadget-brand {
+            color: #666;
+            font-size: 0.9em;
+            margin: 5px 0 15px 0;
+            font-weight: normal;
+        }
+
+        .no-gadgets-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
+        .no-gadgets-message h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+    </style>
 
     <!-- hero section -->
-
     <div class="hero-page">
         <div class="hero-headlines">
             <h1>
@@ -132,141 +201,35 @@
             Choose from our wide range of gadgets
         </p>
         <div class="products-container">
-
-            <!-- gadget 1 -->
-            <div class="products-gadget-item">
-                <img class="gadget-pic" src="assets/img/gadget-canon.jpg" alt="img">
-                <div class="gadget-info-container">
-                    <div class="gadget-info">
-                        <div class="gadget-price">
-                            <h5>$12.00</h5>
-                            <h6>/Day</h6>
-                        </div>
-                        <div class="gadget-location">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <h6>Dhaka</h6>
-                        </div>
-                    </div>
-                    <h2>Canon</h2>
-                    <button class="btn-2 btn-gadget" onclick="window.location.href='detail.php'">
-                        <p>Rent Now</p>
-                    </button>
-                </div>
-            </div>
-
-
-            <!-- gadget 2 -->
-            <div class="products-gadget-item">
-                <img class="gadget-pic" src="assets/img/gadget-laptop.jpg" alt="img">
-                <div class="gadget-info-container">
-                    <div class="gadget-info">
-                        <div class="gadget-price">
-                            <h5>$16.00</h5>
-                            <h6>/Day</h6>
-                        </div>
-                        <div class="gadget-location">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <h6>Rajshahi</h6>
+            <?php if ($featured_gadgets && $featured_gadgets->num_rows > 0): ?>
+                <?php while ($gadget = $featured_gadgets->fetch_assoc()): ?>
+                    <div class="products-gadget-item">
+                        <img class="gadget-pic" src="<?php echo htmlspecialchars($gadget['image']); ?>" alt="<?php echo htmlspecialchars($gadget['name']); ?>">
+                        <div class="gadget-info-container">
+                            <div class="gadget-info">
+                                <div class="gadget-price">
+                                    <h5><?php echo formatCurrency($gadget['price_per_day']); ?></h5>
+                                    <h6>/Day</h6>
+                                </div>
+                                <div class="gadget-location">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <h6><?php echo htmlspecialchars($gadget['location']); ?></h6>
+                                </div>
+                            </div>
+                            <h2><?php echo htmlspecialchars($gadget['name']); ?></h2>
+                            <p class="gadget-brand"><?php echo htmlspecialchars($gadget['brand'] . ' ' . $gadget['model']); ?></p>
+                            <button class="btn-2 btn-gadget" onclick="window.location.href='gadget-details.php?id=<?php echo $gadget['id']; ?>'">
+                                <p>Rent Now</p>
+                            </button>
                         </div>
                     </div>
-                    <h2>Acer Extensa</h2>
-                    <button class="btn-2 btn-gadget" onclick="window.location.href='detail.php'">
-                        <p>Rent Now</p>
-                    </button>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <div class="no-gadgets-message">
+                    <h3>No gadgets available at the moment</h3>
+                    <p>Please check back later for new arrivals!</p>
                 </div>
-            </div>
-
-
-            <!-- gadget 2 -->
-            <div class="products-gadget-item">
-                <img class="gadget-pic" src="assets/img/gadget-drone.jpg" alt="img">
-                <div class="gadget-info-container">
-                    <div class="gadget-info">
-                        <div class="gadget-price">
-                            <h5>$16.00</h5>
-                            <h6>/Day</h6>
-                        </div>
-                        <div class="gadget-location">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <h6>Rajshahi</h6>
-                        </div>
-                    </div>
-                    <h2>Drone</h2>
-                    <button class="btn-2 btn-gadget" onclick="window.location.href='detail.php'">
-                        <p>Rent Now</p>
-                    </button>
-                </div>
-            </div>
-            
-
-            
-
-
-            <!-- gadget 4 -->
-            <div class="products-gadget-item">
-                <img class="gadget-pic" src="assets/img/gadget-iphone.jpg" alt="img">
-                <div class="gadget-info-container">
-                    <div class="gadget-info">
-                        <div class="gadget-price">
-                            <h5>$8.00</h5>
-                            <h6>/Day</h6>
-                        </div>
-                        <div class="gadget-location">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <h6>Khulna</h6>
-                        </div>
-                    </div>
-                    <h2>Iphone 15</h2>
-                    <button class="btn-2 btn-gadget" onclick="window.location.href='detail.php'">
-                        <p>Rent Now</p>
-                        
-                    </button>
-                </div>
-            </div>
-
-            <!-- gadget 5 -->
-            <div class="products-gadget-item">
-                <img class="gadget-pic" src="assets/img/gadget-oven.jpg" alt="img">
-                <div class="gadget-info-container">
-                    <div class="gadget-info">
-                        <div class="gadget-price">
-                            <h5>$15.00</h5>
-                            <h6>/Day</h6>
-                        </div>
-                        <div class="gadget-location" onclick="window.location.href='detail.php'">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <h6>Dhaka</h6>
-                        </div>
-                    </div>
-                    <h2>Electric Oven</h2>
-                    <button class="btn-2 btn-gadget">
-                        <p>Rent Now</p>
-                        
-                    </button>
-                </div>
-            </div>
-
-            <!-- gadget 6 -->
-            <div class="products-gadget-item">
-                <img class="gadget-pic" src="assets/img/gadgte-speaker.jpg" alt="img">
-                <div class="gadget-info-container">
-                    <div class="gadget-info">
-                        <div class="gadget-price">
-                            <h5>$9.00</h5>
-                            <h6>/Day</h6>
-                        </div>
-                        <div class="gadget-location">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <h6>Cox's Bazar</h6>
-                        </div>
-                    </div>
-                    <h2>Speakers</h2>
-                    <button class="btn-2 btn-gadget" onclick="window.location.href='detail.php'">
-                        <p>Rent Now</p>
-                    
-                    </button>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
 
         <button class="btn-gadget btn-herogadget" onclick="window.location.href='product.php'">

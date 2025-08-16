@@ -90,18 +90,18 @@ switch ($page_type) {
     </div>
 
     <div class="footer-bottom">
-        <a href="/" class="footer-brand">Rent<b class="accent">Byte</b></a>
+        <a href="index.php" class="footer-brand">Rent<b class="accent">Byte</b></a>
         <div class="socials">
-            <a href="/" class="social-item">
+            <a href="#" class="social-item">
                 <i class="fa-brands fa-facebook-f"></i>
             </a>
-            <a href="/" class="social-item">
+            <a href="#" class="social-item">
                 <i class="fa-brands fa-instagram"></i>
             </a>
-            <a href="/" class="social-item">
+            <a href="#" class="social-item">
                 <i class="fa-brands fa-x-twitter"></i>
             </a>
-            <a href="/" class="social-item">
+            <a href="#" class="social-item">
                 <i class="fa-brands fa-telegram"></i>
             </a>
         </div>

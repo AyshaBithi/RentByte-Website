@@ -111,26 +111,37 @@ switch ($page_type) {
 
     <!-- navbar -->
     <nav>
-        <a href="<?php echo ($page_type === 'index') ? '/' : '/'; ?>" class="brand">
+        <a href="index.php" class="brand">
             <img class="logo" src="<?php echo $logo_path; ?>" alt="">
         </a>
         <div class="menu">
             <div class="btn">
                 <i class="fas fa times close btn"></i>
             </div>
-            <a href="/">HOME</a>
+            <a href="index.php">HOME</a>
             <?php if ($show_full_nav): ?>
             <a href="product.php">GADGETS</a>
-            <a href="/#about">ABOUT</a>
-            <a href="/#review">REVIEWS</a>
+            <a href="index.php#about">ABOUT</a>
+            <a href="index.php#review">REVIEWS</a>
             <?php endif; ?>
         </div>
         <?php if ($show_get_started): ?>
-        <a href="signup.php">
-            <button class="btn-2 btn-hero" onclick="window.location.href='contact.html'">
-                Get Started
-            </button>
-        </a>
+            <?php if (isLoggedIn()): ?>
+                <div class="user-menu">
+                    <a href="<?php echo isAdmin() ? 'admin/dashboard.php' : 'dashboard.php'; ?>" class="btn-2 btn-hero">
+                        <?php echo isAdmin() ? 'Admin Panel' : 'Dashboard'; ?>
+                    </a>
+                    <a href="logout.php" class="btn-2 btn-secondary" style="margin-left: 10px;">
+                        Logout
+                    </a>
+                </div>
+            <?php else: ?>
+                <a href="signup.php">
+                    <button class="btn-2 btn-hero">
+                        Get Started
+                    </button>
+                </a>
+            <?php endif; ?>
         <?php endif; ?>
 
         <div class="btn">

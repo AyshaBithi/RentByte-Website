@@ -158,12 +158,46 @@ nav.sticky{
     transition: all ease-in-out 0.2s;
     cursor: pointer;
     filter: drop-shadow(5px 5px 10px rgba(216, 216, 216, 0.2));
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    margin: 0 10px;
 }
 
 .btn-2:hover{
     background-color: var(--black);
     filter: drop-shadow(5px 5px 10px rgba(216,216,216,0.6));
+    color: white;
+}
 
+.btn-secondary {
+    background-color: var(--darkkk-gray);
+    border-color: var(--darkkk-gray);
+}
+
+.btn-secondary:hover {
+    background-color: var(--black);
+    border-color: var(--black);
+}
+
+.btn-signup{
+    width: 160px;
+    height: 50px;
+    font-size: 20px;
+    background-color: var(--accent);
+    border: 1px solid var(--accent);
+    color: var(--white);
+    border-radius: 8px;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+    filter: drop-shadow(5px 5px 10px rgba(216, 216, 216, 0.2));
+}
+
+.btn-signup:hover{
+    background-color: var(--black);
+    filter: drop-shadow(5px 5px 10px rgba(216,216,216,0.6));
 }
 
 
@@ -216,6 +250,25 @@ nav.sticky{
     width: 180px;
     height: 54px;
     font-size: 20px;
+    background-color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    color: #ffffff;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+    filter: drop-shadow(5px 5px 10px rgba(216, 216, 216, 0.2));
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+.btn-hero:hover{
+    background-color: var(--black);
+    filter: drop-shadow(5px 5px 10px rgba(216,216,216,0.6));
+    color: white;
 }
 
 
