@@ -632,6 +632,16 @@ function generateCSRFToken() {
 function verifyCSRFToken(\$token) {
     return isset(\$_SESSION['csrf_token']) && hash_equals(\$_SESSION['csrf_token'], \$token);
 }
+/**
+ * Format a date string to 'M d, Y' (e.g., Aug 18, 2025)
+ * @param string $dateString
+ * @return string
+ */
+function formatDate($dateString) {
+    $timestamp = strtotime($dateString);
+    if ($timestamp === false) return '';
+    return date('M d, Y', $timestamp);
+}
 ?>";
 
     file_put_contents('includes/config.php', $config_content);

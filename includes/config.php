@@ -82,6 +82,17 @@ function executeQuery($query, $params = [], $types = '') {
 }
 
 /**
+ * Format a date string to 'M d, Y' (e.g., Aug 18, 2025)
+ * @param string $dateString
+ * @return string
+ */
+function formatDate($dateString) {
+    $timestamp = strtotime($dateString);
+    if ($timestamp === false) return '';
+    return date('M d, Y', $timestamp);
+}
+
+/**
  * Sanitize input data
  * @param string $data Input data to sanitize
  * @return string Sanitized data
