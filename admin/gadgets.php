@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } else {
                     $query = "INSERT INTO gadgets (name, description, category_id, price_per_day, location, brand, model, specifications, condition_note, image) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    $result = executeQuery($query, [$name, $description, $category_id, $price_per_day, $location, $brand, $model, $specifications, $condition_note, $image], 'ssidsssss');
+                    $result = executeQuery($query, [$name, $description, $category_id, $price_per_day, $location, $brand, $model, $specifications, $condition_note, $image], 'ssidssssss');
                     
                     if ($result) {
                         $success_message = 'Gadget added successfully!';
