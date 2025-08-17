@@ -106,7 +106,7 @@ function isLoggedIn() {
  * @return bool True if user is admin, false otherwise
  */
 function isAdmin() {
-    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
 }
 
 /**
@@ -114,7 +114,9 @@ function isAdmin() {
  */
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: login.php');
+        // Check if we're in admin directory and adjust path accordingly
+        $login_path = (strpos($_SERVER['REQUEST_URI'], '/admin/') !== false) ? '../login.php' : 'login.php';
+        header('Location: ' . $login_path);
         exit();
     }
 }
@@ -125,7 +127,9 @@ function requireLogin() {
 function requireAdmin() {
     requireLogin();
     if (!isAdmin()) {
-        header('Location: dashboard.php');
+        // Check if we're in admin directory and adjust path accordingly
+        $dashboard_path = (strpos($_SERVER['REQUEST_URI'], '/admin/') !== false) ? '../dashboard.php' : 'dashboard.php';
+        header('Location: ' . $dashboard_path);
         exit();
     }
 }

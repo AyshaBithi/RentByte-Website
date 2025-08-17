@@ -85,6 +85,40 @@ include('includes/header.php');
     background-color: #d4edda;
     border-color: #c3e6cb;
 }
+
+/* Debug CSS to fix button and input issues */
+.form-group {
+    position: relative !important;
+    z-index: 1 !important;
+    margin-bottom: 20px !important;
+}
+
+.form-group input {
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+}
+
+button.btn-signup {
+    position: relative !important;
+    z-index: 100 !important;
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    background-color: #878ec7 !important;
+    color: white !important;
+    border: none !important;
+    margin: 20px 0 !important;
+}
+
+.btn-gadget.btn-herogadget {
+    position: relative !important;
+    z-index: 100 !important;
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    margin: 20px auto !important;
+}
 </style>
 
 <!-- Sign-up Form Section -->
@@ -128,15 +162,12 @@ include('includes/header.php');
                 <label for="confirm_password">Confirm Password: <span class="required">*</span></label>
                 <input type="password" id="confirm_password" name="confirm_password" required>
             </div>
-
+       
+            
             <button type="submit" class="btn btn-signup">Sign Up</button>
+            <p style="z-index: 100 !important;">Already have an account? <a href="login.php">Login</a></p>
         </form>
-        <p>Already have an account? <a href="login.php">Login</a></p>
-
-        <button class="btn-gadget btn-herogadget" type="submit" form="signup-form">
-            <p>Sign Up</p>
-        </button>
     </div>
 </section>
-
+<div style="margin-bottom: 200px;"></div>
 <?php include('includes/footer.php')?>
