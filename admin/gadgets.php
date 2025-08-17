@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error_message = 'Please fill in all required fields.';
                 } else {
                     $query = "UPDATE gadgets SET name = ?, description = ?, category_id = ?, price_per_day = ?, location = ?, brand = ?, model = ?, specifications = ?, condition_note = ?, image = ?, status = ? WHERE id = ?";
-                    $result = executeQuery($query, [$name, $description, $category_id, $price_per_day, $location, $brand, $model, $specifications, $condition_note, $image, $status, $id], 'ssidssssssi');
+                    $result = executeQuery($query, [$name, $description, $category_id, $price_per_day, $location, $brand, $model, $specifications, $condition_note, $image, $status, $id], 'ssidsssssssi');
                     
                     if ($result) {
                         $success_message = 'Gadget updated successfully!';
@@ -288,7 +288,7 @@ include '../includes/admin_header.php';
             
             <div class="form-group">
                 <label for="image">Image URL</label>
-                <input type="url" id="image" name="image" 
+                <input type="text" id="image" name="image" 
                        value="<?php echo $edit_gadget ? htmlspecialchars($edit_gadget['image']) : ''; ?>"
                        placeholder="assets/img/gadget-name.jpg">
             </div>
