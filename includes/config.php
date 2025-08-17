@@ -1,7 +1,7 @@
 <?php
 /**
  * Database Configuration File for RentByte
- * 
+ *
  * This file contains database connection settings and utility functions
  * for the RentByte rental system.
  */
@@ -26,20 +26,20 @@ if (session_status() == PHP_SESSION_NONE) {
  */
 function getDBConnection() {
     static $connection = null;
-    
+
     if ($connection === null) {
         $connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-        
+
         // Check connection
         if ($connection->connect_error) {
             error_log("Database connection failed: " . $connection->connect_error);
             return false;
         }
-        
+
         // Set charset to utf8
         $connection->set_charset("utf8");
     }
-    
+
     return $connection;
 }
 
@@ -106,7 +106,7 @@ function isLoggedIn() {
  * @return bool True if user is admin, false otherwise
  */
 function isAdmin() {
-    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 }
 
 /**
@@ -123,10 +123,83 @@ function requireLogin() {
  * Redirect to login page if not admin
  */
 function requireAdmin() {
+    requireLogin();
     if (!isAdmin()) {
-        header('Location: login.php');
+        header('Location: dashboard.php');
         exit();
     }
+}
+
+/**
+ * Set success message in session
+ * @param string $message Success message
+ */
+function setSuccessMessage($message) {
+    $_SESSION['success_message'] = $message;
+}
+
+/**
+ * Set error message in session
+ * @param string $message Error message
+ */
+function setErrorMessage($message) {
+    $_SESSION['error_message'] = $message;
+}
+
+/**
+ * Get and clear success message from session
+ * @return string|null Success message or null
+ */
+function getSuccessMessage() {
+    if (isset($_SESSION['success_message'])) {
+        $message = $_SESSION['success_message'];
+        unset($_SESSION['success_message']);
+        return $message;
+    }
+    return null;
+}
+
+/**
+ * Get and clear error message from session
+ * @return string|null Error message or null
+ */
+function getErrorMessage() {
+    if (isset($_SESSION['error_message'])) {
+        $message = $_SESSION['error_message'];
+        unset($_SESSION['error_message']);
+        return $message;
+    }
+    return null;
+}
+
+/**
+ * Format currency for display
+ * @param float $amount Amount to format
+ * @return string Formatted currency string
+ */
+function formatCurrency($amount) {
+    return '৳' . number_format($amount, 2);
+}
+
+/**
+ * Calculate rental duration in days
+ * @param string $start_date Start date
+ * @param string $end_date End date
+ * @return int Number of days
+ */
+function calculateRentalDays($start_date, $end_date) {
+    $start = new DateTime($start_date);
+    $end = new DateTime($end_date);
+    $interval = $start->diff($end);
+    return $interval->days + 1; // Include both start and end dates
+}
+
+/**
+ * Generate a unique rental ID
+ * @return string Unique rental ID
+ */
+function generateRentalId() {
+    return 'RB' . date('Ymd') . rand(1000, 9999);
 }
 
 /**
@@ -148,78 +221,4 @@ function generateCSRFToken() {
 function verifyCSRFToken($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
-
-/**
- * Display success message
- * @param string $message Success message
- */
-function setSuccessMessage($message) {
-    $_SESSION['success_message'] = $message;
-}
-
-/**
- * Display error message
- * @param string $message Error message
- */
-function setErrorMessage($message) {
-    $_SESSION['error_message'] = $message;
-}
-
-/**
- * Get and clear success message
- * @return string|null Success message or null
- */
-function getSuccessMessage() {
-    if (isset($_SESSION['success_message'])) {
-        $message = $_SESSION['success_message'];
-        unset($_SESSION['success_message']);
-        return $message;
-    }
-    return null;
-}
-
-/**
- * Get and clear error message
- * @return string|null Error message or null
- */
-function getErrorMessage() {
-    if (isset($_SESSION['error_message'])) {
-        $message = $_SESSION['error_message'];
-        unset($_SESSION['error_message']);
-        return $message;
-    }
-    return null;
-}
-
-/**
- * Format currency
- * @param float $amount Amount to format
- * @return string Formatted currency
- */
-function formatCurrency($amount) {
-    return '$' . number_format($amount, 2);
-}
-
-/**
- * Format date
- * @param string $date Date to format
- * @return string Formatted date
- */
-function formatDate($date) {
-    return date('M d, Y', strtotime($date));
-}
-
-/**
- * Format datetime
- * @param string $datetime Datetime to format
- * @return string Formatted datetime
- */
-function formatDateTime($datetime) {
-    return date('M d, Y g:i A', strtotime($datetime));
-}
-
-// Error reporting (disable in production)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 ?>

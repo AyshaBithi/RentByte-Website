@@ -608,6 +608,26 @@ function calculateRentalDays(\$start_date, \$end_date) {
 function generateRentalId() {
     return 'RB' . date('Ymd') . rand(1000, 9999);
 }
+
+/**
+ * Generate CSRF token
+ * @return string CSRF token
+ */
+function generateCSRFToken() {
+    if (!isset(\$_SESSION['csrf_token'])) {
+        \$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return \$_SESSION['csrf_token'];
+}
+
+/**
+ * Verify CSRF token
+ * @param string \$token Token to verify
+ * @return bool True if token is valid, false otherwise
+ */
+function verifyCSRFToken(\$token) {
+    return isset(\$_SESSION['csrf_token']) && hash_equals(\$_SESSION['csrf_token'], \$token);
+}
 ?>";
 
     file_put_contents('includes/config.php', $config_content);
